@@ -1,114 +1,139 @@
 import 'package:flutter/material.dart';
-import 'perfil.dart';
+import 'package:sicahapp_v2/editperfil.dart';
 import 'horas.dart';
 import 'notificaciones.dart';
-import 'edicion.dart';
-
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      initialRoute: '/',
-      routes: {
-        '/': (context) => HomePage(),
-      },
-      theme: ThemeData(
-        primaryColor: Colors
-            .deepPurple, // Cambiar el color de la barra superior (AppBar) a morado
-      ),
-    );
-  }
-}
 
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Bienvenido!'),
-        backgroundColor:
-            Colors.deepPurple, // Cambiar el color de la barra superior a morado
+        title: Text('Mi Perfil'),
+        backgroundColor: Colors.green,
       ),
-      body: GridView.count(
-        crossAxisCount: 2,
-        children: [
-          _buildGridItem(
-            context,
-            'Perfil',
-            Icons.person,
-            Colors.deepPurple, // Cambiar el color del ícono a morado
-            PerfilPage(),
-          ),
-          _buildGridItem(
-            context,
-            'Horas',
-            Icons.access_time,
-            Colors.green,
-            HorasPage(),
-          ),
-          _buildGridItem(
-            context,
-            'Notificaciones',
-            Icons.notifications,
-            Colors.red,
-            NotificacionesPage(),
-          ),
-          _buildGridItem(
-            context,
-            'Editar Perfil',
-            Icons.edit,
-            Colors.orange,
-            EditarPerfilPage(),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildGridItem(
-    BuildContext context,
-    String title,
-    IconData icon,
-    Color color,
-    Widget page,
-  ) {
-    return InkWell(
-      onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => page));
-      },
-      child: Container(
-        margin: EdgeInsets.all(16.0),
-        decoration: BoxDecoration(
-          color: color,
-          borderRadius: BorderRadius.circular(12.0),
-          boxShadow: [
-            BoxShadow(
-              color: color.withOpacity(
-                  0.5), // Cambiar el color de la sombra al color de fondo
-              spreadRadius: 3,
-              blurRadius: 5,
-              offset: Offset(0, 3),
-            ),
-          ],
-        ),
+      body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              icon,
-              size: 50,
-              color: Colors.white,
+          children: <Widget>[
+            CircleAvatar(
+              radius: 80,
+              backgroundImage: AssetImage('assets/profile_image.jpg'),
+            ),
+            SizedBox(height: 20),
+            Text(
+              'Fransisco Lopez Briones',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 10),
             Text(
-              title,
-              style: TextStyle(
-                fontSize: 20,
-                color: Colors.white,
+              'franlop25@gmail.com',
+              style: TextStyle(fontSize: 18),
+            ),
+            SizedBox(height: 10),
+            Text(
+              'Tlaxcala,Hamantla',
+              style: TextStyle(fontSize: 18),
+            ),
+            SizedBox(height: 10),
+            Text(
+              '241-129-78-45',
+              style: TextStyle(fontSize: 18),
+            ),
+            SizedBox(height: 20),
+            Text(
+              'NO. Trabajador: 115',
+              style: TextStyle(fontSize: 18),
+            ),
+            SizedBox(height: 10),
+            Text(
+              '01/01/1990',
+              style: TextStyle(fontSize: 18),
+            ),
+            SizedBox(height: 10),
+            Text(
+              'ING. Desarrollo de Software',
+              style: TextStyle(fontSize: 18),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => EditProfilePage(
+                      currentName:
+                          'Fransisco Lopez Briones', // Cambia esto a los valores reales del perfil
+                      currentEmail:
+                          'franlop25@gmail.com', // Cambia esto a los valores reales del perfil
+                    ),
+                  ),
+                );
+              },
+              style: ButtonStyle(
+                elevation: MaterialStateProperty.all(4.0),
+                backgroundColor: MaterialStateProperty.all(Colors.green),
+                foregroundColor: MaterialStateProperty.all(Colors.white),
+                padding: MaterialStateProperty.all(EdgeInsets.all(16)),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.edit, color: Colors.white),
+                  SizedBox(width: 8),
+                  Text('Editar Perfil'),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        child: Row(
+          children: <Widget>[
+            Expanded(
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => HorasPage()),
+                  );
+                },
+                style: ButtonStyle(
+                  elevation: MaterialStateProperty.all(4.0),
+                  backgroundColor: MaterialStateProperty.all(Colors.green),
+                  foregroundColor: MaterialStateProperty.all(Colors.white),
+                  padding: MaterialStateProperty.all(EdgeInsets.all(16)),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.schedule, color: Colors.white),
+                    SizedBox(width: 20),
+                    Text('Ir a Horas'),
+                  ],
+                ),
+              ),
+            ),
+            Expanded(
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                        builder: (context) => NotificacionesPage()),
+                  );
+                },
+                style: ButtonStyle(
+                  elevation: MaterialStateProperty.all(4.0),
+                  backgroundColor: MaterialStateProperty.all(Colors.green),
+                  foregroundColor: MaterialStateProperty.all(Colors.white),
+                  padding: MaterialStateProperty.all(EdgeInsets.all(16)),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.notifications, color: Colors.white),
+                    SizedBox(width: 8),
+                    Text('Ir a Notificaciones'),
+                  ],
+                ),
               ),
             ),
           ],

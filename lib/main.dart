@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => LoginPage(),
         '/home': (context) => HomePage(),
       },
-      theme: ThemeData.light(), // Configura el tema con fondo negro
+      theme: ThemeData.light(),
     );
   }
 }
@@ -75,9 +75,9 @@ class _LoginPageState extends State<LoginPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.network(
-              'https://upload.wikimedia.org/wikipedia/commons/e/e5/Logotipo_utt2.png', // Reemplaza con la URL de tu imagen
-              width: 300, // Ancho de la imagen
-              height: 250, // Alto de la imagen
+              'https://upload.wikimedia.org/wikipedia/commons/e/e5/Logotipo_utt2.png',
+              width: 300,
+              height: 250,
             ),
             SizedBox(height: 16),
             TextField(

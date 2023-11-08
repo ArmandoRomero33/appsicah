@@ -18,7 +18,7 @@ class _NotificacionesPageState extends State<NotificacionesPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Notificaciones'),
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Colors.purple,
       ),
       body: ListView.builder(
         itemCount: notificaciones.length,
