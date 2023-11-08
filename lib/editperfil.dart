@@ -3,16 +3,31 @@ import 'package:flutter/material.dart';
 class EditProfilePage extends StatefulWidget {
   final String currentName;
   final String currentEmail;
+  final String currentEspecialidad;
 
-  EditProfilePage({required this.currentName, required this.currentEmail});
+  EditProfilePage({
+    required this.currentName,
+    required this.currentEmail,
+    required this.currentEspecialidad,
+  });
 
   @override
   _EditProfilePageState createState() => _EditProfilePageState();
 }
 
 class _EditProfilePageState extends State<EditProfilePage> {
-  // Aquí puedes agregar campos de edición y lógica para guardar la información.
-  // Por ejemplo, puedes utilizar TextFields para que los usuarios editen el nombre y el correo electrónico.
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController especialidadController = TextEditingController();
+
+  @override
+  void initState() {
+    nameController.text = widget.currentName;
+    emailController.text = widget.currentEmail;
+    especialidadController.text = widget.currentEspecialidad;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,9 +39,29 @@ class _EditProfilePageState extends State<EditProfilePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            // Agrega TextFields para editar el nombre y el correo electrónico aquí.
-            // Utiliza los valores iniciales de widget.currentName y widget.currentEmail
-            // como valor inicial para los TextFields.
+            TextField(
+              controller: nameController,
+              decoration: InputDecoration(labelText: 'Nombre'),
+            ),
+            TextField(
+              controller: emailController,
+              decoration: InputDecoration(labelText: 'Correo electrónico'),
+            ),
+            TextField(
+              controller: especialidadController,
+              decoration: InputDecoration(labelText: 'Especialidad'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                // Actualiza los datos personales y regresa a la página de inicio
+                Navigator.pop(context, {
+                  'name': nameController.text,
+                  'email': emailController.text,
+                  'especialidad': especialidadController.text,
+                });
+              },
+              child: Text('Guardar Cambios'),
+            ),
           ],
         ),
       ),

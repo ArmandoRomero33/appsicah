@@ -77,7 +77,7 @@ class _LoginPageState extends State<LoginPage> {
             Image.network(
               'https://upload.wikimedia.org/wikipedia/commons/e/e5/Logotipo_utt2.png',
               width: 300,
-              height: 250,
+              height: 167,
             ),
             SizedBox(height: 16),
             TextField(

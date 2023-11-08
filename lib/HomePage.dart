@@ -1,14 +1,49 @@
 import 'package:flutter/material.dart';
-import 'package:sicahapp_v2/editperfil.dart';
+import 'editperfil.dart';
 import 'horas.dart';
 import 'notificaciones.dart';
 
-class HomePage extends StatelessWidget {
+void main() {
+  runApp(MaterialApp(
+    home: HomePage(),
+  ));
+}
+
+class HomePage extends StatefulWidget {
+  final String profileImageUrl =
+      'https://avatars.githubusercontent.com/u/39685222?s=48&v=4';
+
+  String nombre = 'Francisco Lopez Briones';
+  String email = 'franlop25@gmail.com';
+  String telefono = '241-587-46-97';
+  String especialidad = 'TICs';
+  String ciudad = 'Huamantla';
+  String nacimineto = '15/02/1995';
+  String carrera = 'ING sistemas';
+
+  // Define un ButtonStyle personalizado con diferentes estilos
+  final customButtonStyle = ButtonStyle(
+    backgroundColor: MaterialStateProperty.all(Colors.green),
+    foregroundColor: MaterialStateProperty.all(Colors.white),
+    padding: MaterialStateProperty.all(EdgeInsets.all(16)),
+    shape: MaterialStateProperty.all(RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(10.0),
+    )),
+    textStyle: MaterialStateProperty.all(
+      TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+    ),
+  );
+
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Mi Perfil'),
+        title: Text('------------------------Bienvenido--------------------- '),
         backgroundColor: Colors.green,
       ),
       body: Center(
@@ -17,63 +52,49 @@ class HomePage extends StatelessWidget {
           children: <Widget>[
             CircleAvatar(
               radius: 80,
-              backgroundImage: AssetImage('assets/profile_image.jpg'),
+              backgroundImage: NetworkImage(widget.profileImageUrl),
             ),
             SizedBox(height: 20),
             Text(
-              'Fransisco Lopez Briones',
+              widget.nombre,
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 10),
-            Text(
-              'franlop25@gmail.com',
-              style: TextStyle(fontSize: 18),
-            ),
-            SizedBox(height: 10),
-            Text(
-              'Tlaxcala,Hamantla',
-              style: TextStyle(fontSize: 18),
-            ),
-            SizedBox(height: 10),
-            Text(
-              '241-129-78-45',
-              style: TextStyle(fontSize: 18),
-            ),
             SizedBox(height: 20),
             Text(
-              'NO. Trabajador: 115',
-              style: TextStyle(fontSize: 18),
+              'Correo electrónico: ${widget.email}',
+              style: TextStyle(fontSize: 16),
             ),
-            SizedBox(height: 10),
             Text(
-              '01/01/1990',
-              style: TextStyle(fontSize: 18),
+              'Especialidad: ${widget.especialidad}',
+              style: TextStyle(fontSize: 16),
             ),
-            SizedBox(height: 10),
             Text(
-              'ING. Desarrollo de Software',
-              style: TextStyle(fontSize: 18),
+              'Telefono: ${widget.telefono}',
+              style: TextStyle(fontSize: 16),
             ),
             SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).push(
+              onPressed: () async {
+                final result = await Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => EditProfilePage(
-                      currentName:
-                          'Fransisco Lopez Briones', // Cambia esto a los valores reales del perfil
-                      currentEmail:
-                          'franlop25@gmail.com', // Cambia esto a los valores reales del perfil
+                      currentName: widget.nombre,
+                      currentEmail: widget.email,
+                      currentEspecialidad: widget.especialidad,
                     ),
                   ),
                 );
+
+                if (result != null) {
+                  setState(() {
+                    widget.nombre = result['name'];
+                    widget.email = result['email'];
+                    widget.especialidad = result['especialidad'];
+                  });
+                }
               },
-              style: ButtonStyle(
-                elevation: MaterialStateProperty.all(4.0),
-                backgroundColor: MaterialStateProperty.all(Colors.green),
-                foregroundColor: MaterialStateProperty.all(Colors.white),
-                padding: MaterialStateProperty.all(EdgeInsets.all(16)),
-              ),
+              style: widget
+                  .customButtonStyle, // Aplica el ButtonStyle personalizado
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -86,55 +107,94 @@ class HomePage extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: BottomAppBar(
-        child: Row(
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.green,
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.access_time,
+                color: Colors.white), // Icono en color blanco
+            label: 'Horas',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.notifications,
+                color: Colors.white), // Icono en color blanco
+            label: 'Notificaciones',
+          ),
+        ],
+        onTap: (int index) {
+          if (index == 0) {
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (context) => HorasPage()));
+          } else if (index == 1) {
+            Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => NotificacionesPage()));
+          }
+        },
+      ),
+    );
+  }
+}
+
+class EditProfilePage extends StatefulWidget {
+  final String currentName;
+  final String currentEmail;
+  final String currentEspecialidad;
+
+  EditProfilePage({
+    required this.currentName,
+    required this.currentEmail,
+    required this.currentEspecialidad,
+  });
+
+  @override
+  _EditProfilePageState createState() => _EditProfilePageState();
+}
+
+class _EditProfilePageState extends State<EditProfilePage> {
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController especialidadController = TextEditingController();
+
+  @override
+  void initState() {
+    nameController.text = widget.currentName;
+    emailController.text = widget.currentEmail;
+    especialidadController.text = widget.currentEspecialidad;
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Editar Perfil'),
+        backgroundColor: Colors.green,
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Expanded(
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => HorasPage()),
-                  );
-                },
-                style: ButtonStyle(
-                  elevation: MaterialStateProperty.all(4.0),
-                  backgroundColor: MaterialStateProperty.all(Colors.green),
-                  foregroundColor: MaterialStateProperty.all(Colors.white),
-                  padding: MaterialStateProperty.all(EdgeInsets.all(16)),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.schedule, color: Colors.white),
-                    SizedBox(width: 20),
-                    Text('Ir a Horas'),
-                  ],
-                ),
-              ),
+            TextField(
+              controller: nameController,
+              decoration: InputDecoration(labelText: 'Nombre'),
             ),
-            Expanded(
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                        builder: (context) => NotificacionesPage()),
-                  );
-                },
-                style: ButtonStyle(
-                  elevation: MaterialStateProperty.all(4.0),
-                  backgroundColor: MaterialStateProperty.all(Colors.green),
-                  foregroundColor: MaterialStateProperty.all(Colors.white),
-                  padding: MaterialStateProperty.all(EdgeInsets.all(16)),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.notifications, color: Colors.white),
-                    SizedBox(width: 8),
-                    Text('Ir a Notificaciones'),
-                  ],
-                ),
-              ),
+            TextField(
+              controller: emailController,
+              decoration: InputDecoration(labelText: 'Correo electrónico'),
+            ),
+            TextField(
+              controller: especialidadController,
+              decoration: InputDecoration(labelText: 'Especialidad'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context, {
+                  'name': nameController.text,
+                  'email': emailController.text,
+                  'especialidad': especialidadController.text,
+                });
+              },
+              child: Text('Guardar Cambios'),
             ),
           ],
         ),
