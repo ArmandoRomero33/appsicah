@@ -16,6 +16,7 @@ class HomePage extends StatefulWidget {
   String nombre = 'Francisco Lopez Briones';
   String email = 'franlop25@gmail.com';
   String telefono = '241-587-46-97';
+  String titulo = 'Ingenieria';
   String especialidad = 'TICs';
   String ciudad = 'Huamantla';
   String nacimineto = '15/02/1995';
@@ -43,8 +44,12 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('------------------------Bienvenido--------------------- '),
+        title: const Text(
+          'UTT',
+          textAlign: TextAlign.center,
+        ),
         backgroundColor: Colors.green,
+        centerTitle: true,
       ),
       body: Center(
         child: Column(
@@ -65,6 +70,10 @@ class _HomePageState extends State<HomePage> {
               style: TextStyle(fontSize: 16),
             ),
             Text(
+              'Titulo Academico: ${widget.titulo}',
+              style: TextStyle(fontSize: 16),
+            ),
+            Text(
               'Especialidad: ${widget.especialidad}',
               style: TextStyle(fontSize: 16),
             ),
@@ -80,6 +89,7 @@ class _HomePageState extends State<HomePage> {
                     builder: (context) => EditProfilePage(
                       currentName: widget.nombre,
                       currentEmail: widget.email,
+                      currentTitulo: widget.titulo,
                       currentEspecialidad: widget.especialidad,
                     ),
                   ),
@@ -95,7 +105,7 @@ class _HomePageState extends State<HomePage> {
               },
               style: widget
                   .customButtonStyle, // Aplica el ButtonStyle personalizado
-              child: Row(
+              child: const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(Icons.edit, color: Colors.white),
@@ -109,7 +119,7 @@ class _HomePageState extends State<HomePage> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.green,
-        items: [
+        items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.access_time,
                 color: Colors.white), // Icono en color blanco
@@ -138,11 +148,13 @@ class _HomePageState extends State<HomePage> {
 class EditProfilePage extends StatefulWidget {
   final String currentName;
   final String currentEmail;
+  final String currentTitulo;
   final String currentEspecialidad;
 
   EditProfilePage({
     required this.currentName,
     required this.currentEmail,
+    required this.currentTitulo,
     required this.currentEspecialidad,
   });
 
@@ -153,12 +165,14 @@ class EditProfilePage extends StatefulWidget {
 class _EditProfilePageState extends State<EditProfilePage> {
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
+  TextEditingController tituloController = TextEditingController();
   TextEditingController especialidadController = TextEditingController();
 
   @override
   void initState() {
     nameController.text = widget.currentName;
     emailController.text = widget.currentEmail;
+    tituloController.text = widget.currentTitulo;
     especialidadController.text = widget.currentEspecialidad;
     super.initState();
   }
@@ -167,7 +181,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Editar Perfil'),
+        title: const Text('Editar Perfil'),
         backgroundColor: Colors.green,
       ),
       body: Center(
@@ -194,7 +208,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   'especialidad': especialidadController.text,
                 });
               },
-              child: Text('Guardar Cambios'),
+              child: const Text('Guardar Cambios'),
             ),
           ],
         ),

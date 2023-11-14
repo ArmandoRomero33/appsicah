@@ -66,7 +66,7 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Inicio de sesión'),
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Colors.green,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -83,18 +83,16 @@ class _LoginPageState extends State<LoginPage> {
             TextField(
               controller: usernameController,
               style: TextStyle(
-                  color:
-                      Colors.deepPurple), // Cambiar el color del texto a morado
+                  color: Colors.green), // Cambiar el color del texto a morado
               decoration: InputDecoration(
                 labelText: 'Nombre de usuario o correo',
                 prefixIcon: Icon(Icons.person,
-                    color: Colors
-                        .deepPurple), // Cambiar el color del icono a morado
+                    color: Colors.green), // Cambiar el color del icono a morado
                 focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.deepPurple),
+                  borderSide: BorderSide(color: Colors.green),
                 ),
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.deepPurple),
+                  borderSide: BorderSide(color: Colors.green),
                 ),
               ),
             ),
@@ -102,18 +100,16 @@ class _LoginPageState extends State<LoginPage> {
             TextField(
               controller: passwordController,
               style: TextStyle(
-                  color:
-                      Colors.deepPurple), // Cambiar el color del texto a morado
+                  color: Colors.green), // Cambiar el color del texto a morado
               decoration: InputDecoration(
                 labelText: 'Contraseña',
                 prefixIcon: Icon(Icons.lock,
-                    color: Colors
-                        .deepPurple), // Cambiar el color del icono a morado
+                    color: Colors.green), // Cambiar el color del icono a morado
                 focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.deepPurple),
+                  borderSide: BorderSide(color: Colors.green),
                 ),
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.deepPurple),
+                  borderSide: BorderSide(color: Colors.green),
                 ),
               ),
               obscureText: true,

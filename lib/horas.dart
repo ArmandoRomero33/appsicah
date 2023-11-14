@@ -6,7 +6,7 @@ class HorasPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Horario del Profesor'),
-        backgroundColor: Colors.purple,
+        backgroundColor: Colors.green,
       ),
       body: Center(
         child: Column(
