@@ -18,7 +18,12 @@ class MyApp extends StatelessWidget {
         '/': (context) => LoginPage(),
         '/home': (context) => HomePage(),
       },
-      theme: ThemeData.light(),
+      theme: ThemeData(
+        primaryColor: Colors.green,
+        textTheme: TextTheme(
+          bodyText2: TextStyle(color: Colors.green),
+        ),
+      ),
     );
   }
 }
@@ -54,8 +59,11 @@ class _LoginPageState extends State<LoginPage> {
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Inicio de sesión fallido'),
-          backgroundColor: Colors.red,
+          content: Text(
+            'Inicio de sesión fallido',
+            style: TextStyle(color: Colors.white),
+          ),
+          backgroundColor: Colors.redAccent,
         ),
       );
     }
@@ -65,65 +73,80 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Inicio de sesión'),
-        backgroundColor: Colors.green,
+        title: Text('Bienvenido'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.network(
-              'https://upload.wikimedia.org/wikipedia/commons/e/e5/Logotipo_utt2.png',
-              width: 300,
-              height: 167,
-            ),
-            SizedBox(height: 16),
-            TextField(
-              controller: usernameController,
-              style: TextStyle(
-                  color: Colors.green), // Cambiar el color del texto a morado
-              decoration: InputDecoration(
-                labelText: 'Nombre de usuario o correo',
-                prefixIcon: Icon(Icons.person,
-                    color: Colors.green), // Cambiar el color del icono a morado
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.green),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.green),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.network(
+                'https://upload.wikimedia.org/wikipedia/commons/e/e5/Logotipo_utt2.png',
+                height:
+                    250, // Ajusta este valor para cambiar el tamaño de la imagen
+                width:
+                    250, // Ajusta este valor para cambiar el tamaño de la imagen
+              ),
+              SizedBox(height: 16),
+              TextField(
+                controller: usernameController,
+                style: TextStyle(color: Colors.green),
+                decoration: InputDecoration(
+                  labelText: 'Nombre de usuario o correo',
+                  prefixIcon: Icon(Icons.person, color: Colors.green),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.green),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.green),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                 ),
               ),
-            ),
-            SizedBox(height: 16),
-            TextField(
-              controller: passwordController,
-              style: TextStyle(
-                  color: Colors.green), // Cambiar el color del texto a morado
-              decoration: InputDecoration(
-                labelText: 'Contraseña',
-                prefixIcon: Icon(Icons.lock,
-                    color: Colors.green), // Cambiar el color del icono a morado
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.green),
+              SizedBox(height: 16),
+              TextField(
+                controller: passwordController,
+                style: TextStyle(color: Colors.green),
+                decoration: InputDecoration(
+                  labelText: 'Contraseña',
+                  prefixIcon: Icon(Icons.lock, color: Colors.green),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.green),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.green),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                 ),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.green),
+                obscureText: true,
+              ),
+              SizedBox(height: 24),
+              ElevatedButton(
+                onPressed: login,
+                child: Text('Iniciar sesión'),
+                style: ElevatedButton.styleFrom(
+                  primary: Color.fromARGB(255, 102, 226, 91),
+                  padding: EdgeInsets.symmetric(horizontal: 40, vertical: 12),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                 ),
               ),
-              obscureText: true,
-            ),
-            SizedBox(height: 24),
-            ElevatedButton(
-              onPressed: login,
-              child: Text('Iniciar sesión'),
-              style: ElevatedButton.styleFrom(
-                primary: Colors.deepPurple,
-                padding: EdgeInsets.symmetric(horizontal: 40, vertical: 12),
-              ),
-            ),
-          ],
+              SizedBox(height: 16),
+            ],
+          ),
+        ),
+      ),
+      bottomSheet: Container(
+        padding: EdgeInsets.all(8),
+        color: const Color.fromARGB(255, 255, 255, 255),
+        child: Text(
+          '© 2023 MalincheSoftware. Todos los derechos reservados.',
+          style: TextStyle(color: const Color.fromARGB(255, 0, 0, 0)),
         ),
       ),
     );
