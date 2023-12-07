@@ -1,11 +1,20 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 import 'package:sicahapp_v2/HomePage.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:sicahapp_v2/models/perfil_maestro.dart';
+import 'package:provider/provider.dart';
+import 'package:sicahapp_v2/providers/user_provider.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (_) => UserProvider()),
+    ],
+    child: MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -52,10 +61,28 @@ class _LoginPageState extends State<LoginPage> {
       final data = json.decode(response.body);
       final token = data['token'];
 
-      final storage = FlutterSecureStorage();
-      await storage.write(key: 'auth_token', value: token);
+      final validateResponse = await getValidate(token);
 
-      Navigator.pushReplacementNamed(context, '/home');
+      if (validateResponse.statusCode == 200) {
+        //llama la segund api y se obtiene la data
+        final validateData =
+            json.decode(utf8.decode(validateResponse.bodyBytes));
+        print(validateData);
+
+        PerfilMaestro perfilMaestro = PerfilMaestro.fromJson(validateData);
+
+        //almacena el token en el dispositivo
+        Provider.of<UserProvider>(context, listen: false)
+            .setMaestro(perfilMaestro);
+
+        final storage = FlutterSecureStorage();
+        await storage.write(key: 'auth_token', value: token);
+        print(token + ' token');
+        // Navega a la pantalla de inicio
+        Navigator.pushReplacementNamed(context, '/home');
+      } else {
+        print('Error en la autenticación');
+      }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -67,6 +94,15 @@ class _LoginPageState extends State<LoginPage> {
         ),
       );
     }
+  }
+
+  //segunda api
+  Future<Response> getValidate(String token) async {
+    return http.get(
+        Uri.parse('https://edulink-vmob.onrender.com/api/me/employee/'),
+        headers: {
+          'Authorization': 'Bearer $token',
+        });
   }
 
   @override

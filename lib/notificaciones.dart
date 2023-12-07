@@ -6,12 +6,7 @@ class NotificacionesPage extends StatefulWidget {
 }
 
 class _NotificacionesPageState extends State<NotificacionesPage> {
-  List<String> notificaciones = [
-    "Nueva notificación 1",
-    "Nueva notificación 2",
-    "Nueva notificación 3",
-    "Nueva notificación 4",
-  ];
+  List<String> notificaciones = ["", ""];
 
   @override
   Widget build(BuildContext context) {

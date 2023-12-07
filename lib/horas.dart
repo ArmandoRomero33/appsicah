@@ -1,58 +1,54 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:sicahapp_v2/models/perfil_maestro.dart';
+import 'package:sicahapp_v2/providers/user_provider.dart';
 
 class HorasPage extends StatelessWidget {
+  const HorasPage({super.key});
+
   @override
   Widget build(BuildContext context) {
+    //obtener datos del maestro
+    PerfilMaestro? perfilMaestro =
+        Provider.of<UserProvider>(context).perfilMaestro;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text('Horario del Profesor'),
+        title: Text(''),
         backgroundColor: Colors.green,
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'Horario del Profesor',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 20),
-            DataTable(
-              columns: [
-                DataColumn(label: Text('Día')),
-                DataColumn(label: Text('Hora')),
-                DataColumn(label: Text('Asignatura')),
-              ],
-              rows: [
-                DataRow(cells: [
-                  DataCell(Text('Lunes')),
-                  DataCell(Text('08:00 AM - 10:00 AM')),
-                  DataCell(Text('Matemáticas')),
-                ]),
-                DataRow(cells: [
-                  DataCell(Text('Martes')),
-                  DataCell(Text('10:30 AM - 12:30 PM')),
-                  DataCell(Text('Historia')),
-                ]),
-                DataRow(cells: [
-                  DataCell(Text('Miércoles')),
-                  DataCell(Text('09:00 AM - 11:00 AM')),
-                  DataCell(Text('Ciencias')),
-                ]),
-                DataRow(cells: [
-                  DataCell(Text('Jueves')),
-                  DataCell(Text('08:30 AM - 10:30 AM')),
-                  DataCell(Text('Inglés')),
-                ]),
-                DataRow(cells: [
-                  DataCell(Text('Viernes')),
-                  DataCell(Text('10:00 AM - 12:00 PM')),
-                  DataCell(Text('Educación Física')),
-                ]),
-              ],
-            ),
-          ],
-        ),
+      body: ListView(
+        children: [
+          const Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: EdgeInsets.all(10.0),
+                child: Text(
+                  'Materias del profesor',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          DataTable(
+            columns: [
+              DataColumn(label: Text('')),
+              DataColumn(label: Text('')),
+            ],
+            rows: perfilMaestro.subjects
+                .map(
+                  (subjects) => DataRow(cells: [
+                    DataCell(Text(subjects.subject)),
+                    DataCell(Text(subjects.group)),
+                  ]),
+                )
+                .toList(),
+          ),
+        ],
       ),
     );
   }
